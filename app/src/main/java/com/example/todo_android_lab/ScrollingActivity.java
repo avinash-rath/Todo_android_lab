@@ -4,17 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -22,16 +17,13 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ScrollingActivity extends AppCompatActivity {
 
-    private ArrayList<Model> modelArrayList = new ArrayList<>();
-    private ArrayAdapter<Model> modelArrayAdapter;
+    private ModelListAdapter modelArrayAdapter;
     private ListView listView;
 
     @Override
@@ -40,14 +32,9 @@ public class ScrollingActivity extends AppCompatActivity {
         FirebaseFirestore.getInstance().collection("items").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                if(queryDocumentSnapshots.isEmpty()) {
+                if(!queryDocumentSnapshots.isEmpty()) {
                     List<Model> a = queryDocumentSnapshots.toObjects(Model.class);
-                        for(Model model : a) {
-                            modelArrayList.add(model);
-                        }
-                        // TODO: do custom adapter here.
-                        modelArrayAdapter  = new ArrayAdapter<Model>(getApplicationContext(),
-                                R.layout.card_element,modelArrayList);
+                        modelArrayAdapter  = new ModelListAdapter(getApplicationContext(),a);
                         listView.setAdapter(modelArrayAdapter);
                 }
             }

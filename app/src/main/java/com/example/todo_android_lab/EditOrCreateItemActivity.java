@@ -66,7 +66,8 @@ public class EditOrCreateItemActivity extends AppCompatActivity
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                try{String dateTime = year+"-"+month+"-"+dayOfMonth+" "+hour+":"+minute+":00.00";
+                try{
+                    String dateTime = year+"-"+month+"-"+dayOfMonth+" "+hour+":"+minute+":00.00";
                 Timestamp timestamp = Timestamp.valueOf(dateTime);
 
                 EditText titleView = (EditText) findViewById(R.id.title_edit);
@@ -79,9 +80,9 @@ public class EditOrCreateItemActivity extends AppCompatActivity
                 Map<String, Object> dataToPush = new HashMap<String, Object>();
                 dataToPush.put("title",title);
                 dataToPush.put("description",description);
-                dataToPush.put("timestamp",timestamp);
+                dataToPush.put("timestamp",timestamp.toString());
 
-                String documentName = title+timestamp.toString();
+                String documentName = timestamp.toString()+title;
 
                 DocumentReference mDocRef = FirebaseFirestore.getInstance()
                         .collection("items").document(documentName);

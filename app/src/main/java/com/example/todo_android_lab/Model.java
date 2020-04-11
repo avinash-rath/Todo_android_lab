@@ -1,11 +1,10 @@
 package com.example.todo_android_lab;
 
-import java.time.LocalDateTime;
 
 public class Model {
     private String title;
     private String description;
-    private LocalDateTime dateTime;
+    private String timestamp;
     private boolean done;
 
     public String getTitle() {
@@ -16,12 +15,12 @@ public class Model {
         this.title = title;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setTimestamp(String dateTime) {
+        this.timestamp = dateTime;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public String getTimestamp() {
+        return timestamp;
     }
 
     public String getDescription() {
