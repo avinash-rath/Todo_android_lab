@@ -9,11 +9,11 @@
     tools:showIn="@layout/activity_scrolling">
 
 
-    <ListView
-        android:layout_height="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:animateLayoutChanges="true"
-        android:id="@+id/list_view"
+        android:nestedScrollingEnabled="false"
+        android:id="@+id/recycler_view"
 
         />
 

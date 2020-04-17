@@ -9,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".DynamicActivity" />
         <activity
-            android:name=".EditOrCreateItemActivity"
+            android:name=".CreateItemActivity"
             android:label="@string/title_activity_edit_or_create_item"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
