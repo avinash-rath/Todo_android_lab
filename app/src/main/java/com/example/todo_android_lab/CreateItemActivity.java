@@ -69,7 +69,7 @@ public class CreateItemActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 try {
-                    String dateTime = year + "-" + month + "-" + dayOfMonth + " " + hour + ":" + minute + ":00.00";
+                    String dateTime = year + "-" + (month+1) + "-" + dayOfMonth + " " + hour + ":" + minute + ":00.00";
                     Timestamp timestamp = Timestamp.valueOf(dateTime);
 
                     EditText titleView = (EditText) findViewById(R.id.title_edit);
@@ -87,47 +87,47 @@ public class CreateItemActivity extends AppCompatActivity
 
                         String documentName = timestamp.toString() + title;
 
-                        firestore.collection("items").add(dataToPush)
-                                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                                        Context context = getApplicationContext();
-                                        Toast toast = Toast.makeText(context, "Data added", Toast.LENGTH_LONG);
-                                        toast.show();
-                                        Log.d("firebase", "Data added");
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Context context = getApplicationContext();
-                                Toast toast = Toast.makeText(context, "Data not added" + e.toString(),
-                                        Toast.LENGTH_LONG);
-                                toast.show();
-                                Log.d("firebase", "TODO not added", e);
-                            }
-                        });
+//                        firestore.collection("items").document(documentName).set(dataToPush)
+//                                .addOnSuccessListener(new OnSucessListener<Void>() {
+//                                    @Override
+//                                    public void onSuccess(@NonNull Task<DocumentReference> task) {
+//                                        Context context = getApplicationContext();
+//                                        Toast toast = Toast.makeText(context, "Data added", Toast.LENGTH_LONG);
+//                                        toast.show();
+//                                        Log.d("firebase", "Data added");
+//                                    }
+//                                }).addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Context context = getApplicationContext();
+//                                Toast toast = Toast.makeText(context, "Data not added" + e.toString(),
+//                                        Toast.LENGTH_LONG);
+//                                toast.show();
+//                                Log.d("firebase", "TODO not added", e);
+//                            }
+//                        });
 
-//                DocumentReference mDocRef = FirebaseFirestore.getInstance()
-//                        .collection("items").document(documentName);
-//                mDocRef.set(dataToPush).addOnSuccessListener(new OnSuccessListener<Void>() {
-//
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        Context context = getApplicationContext();
-//                        Toast toast = Toast.makeText(context,"TODO added", Toast.LENGTH_LONG);
-//                        toast.show();
-//                        Log.d("firebase","TODO added");
-//                    }
-//                }).addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Context context = getApplicationContext();
-//                        Toast toast = Toast.makeText(context,"TODO not added"+e.toString(),
-//                                Toast.LENGTH_LONG);
-//                        toast.show();
-//                        Log.d("firebase","TODO not added",e);
-//                    }
-//                });
+                DocumentReference mDocRef = FirebaseFirestore.getInstance()
+                        .collection("items").document(documentName);
+                mDocRef.set(dataToPush).addOnSuccessListener(new OnSuccessListener<Void>() {
+
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Context context = getApplicationContext();
+                        Toast toast = Toast.makeText(context,"TODO added", Toast.LENGTH_LONG);
+                        toast.show();
+                        Log.d("firebase","TODO added");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Context context = getApplicationContext();
+                        Toast toast = Toast.makeText(context,"TODO not added"+e.toString(),
+                                Toast.LENGTH_LONG);
+                        toast.show();
+                        Log.d("firebase","TODO not added",e);
+                    }
+                });
                         finish();
                     } else {
                         Toast.makeText(CreateItemActivity.this, "Title or description should not be empty", Toast.LENGTH_SHORT).show();
