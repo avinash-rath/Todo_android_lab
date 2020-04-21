@@ -4,16 +4,9 @@ package com.example.todo_android_lab;
 public class TodoModel {
     private String title;
     private String description;
-    private String docId;
+    private String id;
     private String timestamp;
     private boolean done;
-
-    public TodoModel(String docId, String description, String title, String timestamp) {
-        this.docId = docId;
-        this.description = description;
-        this.title = title;
-        this.timestamp = timestamp;
-    }
 
     public String getTitle() {
         return title;
@@ -31,12 +24,12 @@ public class TodoModel {
         this.description = description;
     }
 
-    public String getDocId() {
-        return docId;
+    public String getId() {
+        return id;
     }
 
-    public void setDocId(String docId) {
-        this.docId = docId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTimestamp() {

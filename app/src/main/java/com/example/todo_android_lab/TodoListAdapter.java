@@ -59,9 +59,9 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.DataHo
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(itemView.getContext(), String.valueOf(list.get(getAdapterPosition()).getDocId()), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(itemView.getContext(), String.valueOf(list.get(getAdapterPosition()).getId()), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(itemView.getContext(), DynamicActivity.class);
-                    intent.putExtra("docId", list.get(getAdapterPosition()).getDocId());
+                    intent.putExtra("docId", list.get(getAdapterPosition()).getId());
                     intent.putExtra("title", list.get(getAdapterPosition()).getTitle());
                     itemView.getContext().startActivity(intent);
                 }

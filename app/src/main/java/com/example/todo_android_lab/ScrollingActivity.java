@@ -36,17 +36,20 @@ public class ScrollingActivity extends AppCompatActivity {
     FirebaseFirestore db;
     private TodoListAdapter adapter;
 
+
     @Override
     protected void onStart() {
+        final Context context = this;
         super.onStart();
         FirebaseFirestore.getInstance().collection("items")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                         if (!queryDocumentSnapshots.isEmpty()) {
-//                            List<TodoModel> a = queryDocumentSnapshots.toObjects(TodoModel.class);
-//                            modelArrayAdapter = new ModelListAdapter(getApplicationContext(), a);
-//                            listView.setAdapter(modelArrayAdapter);
+                            todoList = queryDocumentSnapshots.toObjects(TodoModel.class);
+                            adapter = new TodoListAdapter(todoList);
+                            recycler_view.setAdapter(adapter);
+                            recycler_view.setLayoutManager(new GridLayoutManager(context, 2));
                             Log.i("updated", String.valueOf(queryDocumentSnapshots.getDocuments()));
                         }
                     }
@@ -69,25 +72,6 @@ public class ScrollingActivity extends AppCompatActivity {
 
         recycler_view = (RecyclerView) findViewById(R.id.recycler_view);
 
-        db.collection("items").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    Log.d("listStr", String.valueOf(task.getResult()));
-                    for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
-                        HashMap hm = (HashMap) queryDocumentSnapshot.getData();
-                        todoList.add(new TodoModel(queryDocumentSnapshot.getId(),
-                                String.valueOf(hm.get("description")),
-                                String.valueOf(hm.get("title")),
-                                String.valueOf(hm.get("timestamp"))));
-                        Log.i("Printing", String.valueOf(hm.get("title")));
-                        adapter = new TodoListAdapter(todoList);
-                        recycler_view.setAdapter(adapter);
-                        recycler_view.setLayoutManager(new GridLayoutManager(context, 2));
-                    }
-                }
-            }
-        });
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
