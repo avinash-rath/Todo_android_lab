@@ -61,14 +61,32 @@
         android:paddingLeft="10dp"
         android:id="@+id/time_button"
         />
-
-    <Button
-        android:id="@+id/add_button"
-        android:layout_width="wrap_content"
+    <LinearLayout
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_margin="20dp"
-        android:text="Add TODO"/>
+        android:layout_width="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/add_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_margin="20dp"
+            android:textColor="#1B98F5"
+            style="?attr/borderlessButtonStyle"
+            android:text="Add TODO"/>
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_margin="20dp"
+            android:textColor="#F51B1B"
+            style="?attr/borderlessButtonStyle"
+            android:text="Cancel"/>
+
+
+
+    </LinearLayout>
 
 
 </LinearLayout>

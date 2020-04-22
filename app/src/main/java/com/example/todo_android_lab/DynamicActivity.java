@@ -32,7 +32,7 @@ public class DynamicActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dynamic);
+        setContentView(R.layout.activity_edit_or_create_item);
 
         DynamicActivity.this.setTitle(getIntent().getStringExtra("title"));
 
@@ -40,7 +40,7 @@ public class DynamicActivity extends AppCompatActivity {
         title = findViewById(R.id.title);
         description = findViewById(R.id.description);
         editButton = findViewById(R.id.editButton);
-        final String string = getIntent().getStringExtra("docId");
+        final String string = getIntent().getStringExtra("id");
 
         DocumentReference documentReference = firestore.collection("items").document(string);
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {

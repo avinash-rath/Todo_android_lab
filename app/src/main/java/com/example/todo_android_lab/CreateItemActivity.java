@@ -3,6 +3,7 @@ package com.example.todo_android_lab;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,13 +37,33 @@ import androidx.fragment.app.DialogFragment;
 public class CreateItemActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
+    Intent intent;
+    String title;
+    String timestamp;
+    String description;
+
     public int year, month, dayOfMonth, hour, minute;
-    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        intent = getIntent();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_or_create_item);
+
+        if(intent.getBooleanExtra("ISEDIT",false)) {
+            EditText title = findViewById(R.id.title_edit);
+            title.setText(intent.getStringExtra("TITLE"));
+            EditText description = findViewById(R.id.description_edit);
+            description.setText(intent.getStringExtra("DESCRIPTION"));
+
+            String timestamp = intent.getStringExtra("TIMESTAMP");
+            TextView date = findViewById(R.id.date_id);
+            TextView time = findViewById(R.id.time_id);
+
+            date.setText(timestamp.split(" ")[0]);
+            time.setText(timestamp.split(" ")[1]);
+
+        };
 
         Button button = (Button) findViewById(R.id.date_button);
         button.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +85,7 @@ public class CreateItemActivity extends AppCompatActivity
         });
 
         Button addButton = (Button) findViewById(R.id.add_button);
+        addButton.setText(intent.getBooleanExtra("ISEDIT",false) ? "Edit TODO" : "Add TODO");
         addButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -86,26 +108,6 @@ public class CreateItemActivity extends AppCompatActivity
                         dataToPush.put("timestamp", timestamp.toString());
 
                         String documentName = timestamp.toString() + title;
-
-//                        firestore.collection("items").document(documentName).set(dataToPush)
-//                                .addOnSuccessListener(new OnSucessListener<Void>() {
-//                                    @Override
-//                                    public void onSuccess(@NonNull Task<DocumentReference> task) {
-//                                        Context context = getApplicationContext();
-//                                        Toast toast = Toast.makeText(context, "Data added", Toast.LENGTH_LONG);
-//                                        toast.show();
-//                                        Log.d("firebase", "Data added");
-//                                    }
-//                                }).addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                Context context = getApplicationContext();
-//                                Toast toast = Toast.makeText(context, "Data not added" + e.toString(),
-//                                        Toast.LENGTH_LONG);
-//                                toast.show();
-//                                Log.d("firebase", "TODO not added", e);
-//                            }
-//                        });
 
                 DocumentReference mDocRef = FirebaseFirestore.getInstance()
                         .collection("items").document(documentName);
@@ -138,6 +140,23 @@ public class CreateItemActivity extends AppCompatActivity
                     Toast.makeText(context, "Error" + e.toString(), Toast.LENGTH_LONG).show();
                     finish();
                 }
+                if(intent.getBooleanExtra("ISEDIT",false)) {
+                    title = intent.getStringExtra("TITLE");
+                    timestamp = intent.getStringExtra("TIMESTAMP");
+                    description = intent.getStringExtra("DESCRIPTION");
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    DocumentReference mDocRef = db.collection("items")
+                            .document(timestamp+title);
+                    mDocRef.delete();
+                }
+            }
+        });
+
+        Button cancelButton = (Button) findViewById(R.id.cancel_button);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

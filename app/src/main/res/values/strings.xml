@@ -12,7 +12,7 @@
         Long Description of the task
     </string>
     <string name="action_1">Edit</string>
-    <string name="action_2">Done</string>
+    <string name="action_2">Delete</string>
     <string name="title_activity_edit_or_create_item">EditOrCreateItemActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
